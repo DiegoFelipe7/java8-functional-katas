@@ -18,7 +18,12 @@ import java.util.Map;
 public class Kata5 {
     public static Double execute() {
         List<Movie> movies = DataUtil.getMovies();
+        return movies.stream().reduce((x,y)->{
+            if(x.getRating()>y.getRating()){
+                return x;
+            }
+            return y;
 
-        return 3.0;
+        }).get().getRating();
     }
 }
