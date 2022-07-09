@@ -19,12 +19,15 @@ import java.util.stream.Collectors;
 public class Kata4 {
     public static List<Map> execute() {
         List<MovieList> movieLists = DataUtil.getMovieLists();
+        return  movieLists.stream()
+                .flatMap(movieList -> movieList.getVideos().stream())
+                .map(movie -> {
+                    return ImmutableMap.of("id", movie.getId(), "title", movie.getTitle(),
+                            "boxart", movie.getBoxarts().stream().filter(movi->
+                                    movi.getHeight().equals(150)&&movi.getWidth().equals(200)
+                            ));
+                })
+                .collect(Collectors.toList());
 
-        return movieLists.stream().map((x) -> {
-            return ImmutableMap.of("id", x.getVideos().stream().map(id->id.getId()),
-                    "title", x.getVideos().stream().map(title->title.getTitle()),
-                    "boxart", x.getVideos().stream().map(boxart->boxart.getBoxarts())
-                    );
-        }).collect(Collectors.toList());
     }
 }
