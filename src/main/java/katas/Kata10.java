@@ -9,16 +9,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /*
     Goal: Create a datastructure from the given data:
-
     We have 2 arrays each containing lists, and videos respectively.
     Each video has a listId field indicating its parent list.
     We want to build an array of list objects, each with a name and a videos array.
     The videos array will contain the video's id and title.
     In other words we want to build the following structure:
-
     [
         {
             "name": "New Releases",
@@ -47,7 +46,6 @@ import java.util.stream.Collectors;
             ]
         }
     ]
-
     DataSource: DataUtil.getLists(), DataUtil.getVideos()
     Output: the given datastructure
 */
@@ -57,14 +55,16 @@ public class Kata10 {
         List<Map> videos = DataUtil.getVideos();
 
         return lists.stream().map(list->{
-            List<Map> filtroVideos= (List<Map>) videos.stream().filter(video-> {
+            Stream<Map> filtroVideos= (Stream<Map>) videos.stream().filter(video-> {
                 return list.get("id").equals(video.get("listId"));
             });
             return ImmutableMap.of(
                     "name",list.get("name"),
-                    "videos",filtroVideos.stream().map(video->{
-                return Map.of("id",video.get("id"),"title",video.get("title"));
-            }).collect(Collectors.toSet()));
+                    "videos",filtroVideos.map(video->{
+                        return Map.of(
+                                "id",video.get("id"),
+                                "title",video.get("title"));
+                    }).collect(Collectors.toSet()));
         }).collect(Collectors.toList());
 
     }

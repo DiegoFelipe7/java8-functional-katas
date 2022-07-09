@@ -21,7 +21,9 @@ public class Kata9 {
     public static List<Map> execute() {
         List<MovieList> movieLists = DataUtil.getMovieLists();
         return movieLists.stream().flatMap(movieList -> movieList.getVideos().stream()).map(movie -> {
-            return ImmutableMap.of("id",movie.getId(),"title",movie.getTitle(),
+            return ImmutableMap.of(
+                    "id",movie.getId(),
+                    "title",movie.getTitle(),
                     "time",movie.getInterestingMoments()
                             .stream().filter(interestingMoment -> interestingMoment.getTime().equals("middle")),
                     "url",movie.getBoxarts()

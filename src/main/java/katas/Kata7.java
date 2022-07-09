@@ -23,7 +23,10 @@ public class Kata7 {
         return movieLists.stream()
                 .flatMap(movieList -> movieList.getVideos().stream()
                 .map(movie->{return ImmutableMap
-                        .of("id",movie.getId(),"title",movie.getTitle(),"boxart",movie.getBoxarts().stream()
+                        .of(
+                                "id",movie.getId(),
+                                "title",movie.getTitle(),
+                                "boxart",movie.getBoxarts().stream()
                                 .reduce((x,y)->{
                                     if((x.getWidth()*x.getHeight())>(y.getWidth()*y.getHeight())){
                                         return x;

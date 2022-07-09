@@ -26,7 +26,9 @@ public class Kata8 {
         // StreamUtils.zip()
 
         return StreamUtils.zip(movies.stream(),bookMarks.stream(),(movie,bookmark)->{
-            return ImmutableMap.of("videoId",movie.getId() , "bookmarkId",bookmark.getId());
+            return ImmutableMap.of(
+                    "videoId",movie.getId() ,
+                    "bookmarkId",bookmark.getId());
         }).collect(Collectors.toList());
     }
 }

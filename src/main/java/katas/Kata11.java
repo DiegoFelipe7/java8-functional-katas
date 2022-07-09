@@ -64,23 +64,24 @@ public class Kata11 {
         List<Map> boxArts = DataUtil.getBoxArts();
         List<Map> bookmarkList = DataUtil.getBookmarkList();
 
-/*
-        List<Map>resultad=lists.stream().map(list -> ImmutableMap.of(
+        return lists.stream().map(list -> ImmutableMap.of(
                 "name", list.get("name"),
                 "videos", videos.stream().filter(videoId -> list.get("id").equals(videoId.get("listId")))
-                .map(video -> ImmutableMap.of(
-                "id", video.get("id"),
-                "title", video.get("title"),
-                "time", bookmarkList.stream().filter(bookmark->video.get("id").equals(bookmark.get("videoId")))
-                   .map()
-                )));*/
-
-        return ImmutableList.of(ImmutableMap.of("name", "someName", "videos", ImmutableList.of(
-                ImmutableMap.of("id", 5, "title", "The Chamber", "time", 123, "boxart", "someUrl")
-        )));
+                        .map(video -> ImmutableMap.of(
+                                "id", video.get("id"),
+                                "title", video.get("title"),
+                                "time", bookmarkList.stream().filter(bookmark -> video.get("id").equals(bookmark.get("videoId")))
+                                        .map(bookmark -> bookmark.get("time")).collect(Collectors.toList()),
+                                "boxart", boxArts.stream().filter(boxarts -> video.get("id").equals(boxarts.get("videoId")))
+                                        .reduce((box1, box2) -> {
+                                            if ((int) box2.get("width") * (int) box2.get("height") < (int) box1.get("width") * (int) box1.get("height")) {
+                                                return box2;
+                                            }
+                                            return box1;
+                                        })
+                                        .map(boxArt -> (String) boxArt.get("url"))
+                        )))).collect(Collectors.toList());
     }
 
-    public static void main(String[] args) {
-        execute();
-    }
+
 }

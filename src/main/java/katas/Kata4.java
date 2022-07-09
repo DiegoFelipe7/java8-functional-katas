@@ -22,7 +22,9 @@ public class Kata4 {
         return  movieLists.stream()
                 .flatMap(movieList -> movieList.getVideos().stream())
                 .map(movie -> {
-                    return ImmutableMap.of("id", movie.getId(), "title", movie.getTitle(),
+                    return ImmutableMap.of(
+                            "id", movie.getId(),
+                            "title", movie.getTitle(),
                             "boxart", movie.getBoxarts().stream().filter(movi->
                                     movi.getHeight().equals(150)&&movi.getWidth().equals(200)
                             ));
